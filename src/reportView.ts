@@ -238,35 +238,35 @@ export function buildReport(weekKey?: string): string {
 <div class="page">
 
   <div class="report-header">
-    <div class="report-label">🔥 Quant's Bonfire — Lore Scroll</div>
+    <div class="report-label">Quant's Bonfire — Weekly Research Report</div>
     <div class="report-title">${esc(dateRange)}</div>
-    <div class="report-sub">${experiments.length} experiment${experiments.length !== 1 ? 's' : ''} etched this week</div>
+    <div class="report-sub">${experiments.length} experiment${experiments.length !== 1 ? 's' : ''} recorded this week</div>
   </div>
 
   ${experiments.length === 0 ? `
     <div class="empty">
-      No experiments etched for this week yet.<br>
-      Rest at the bonfire after your next run — your findings will be recorded here.
+      No experiments recorded for this week.<br>
+      Annotate your next run to have it appear here.
     </div>` : ''}
 
   ${imgExperiments.length > 0 ? `
   <div class="section">
-    <div class="section-title">📈 Visions &amp; Discoveries <span class="count">${imgExperiments.length}</span></div>
+    <div class="section-title">📈 Visual Outputs <span class="count">${imgExperiments.length}</span></div>
     <div class="cards-grid">${chartCards}</div>
   </div>` : ''}
 
   ${dataExperiments.length > 0 ? `
   <div class="section">
-    <div class="section-title">📦 Gathered Loot <span class="count">${dataExperiments.length}</span></div>
+    <div class="section-title">📦 Data Outputs <span class="count">${dataExperiments.length}</span></div>
     <table class="data-table">
-      <thead><tr><th>File</th><th>What I tested</th><th>Finding</th><th>Date</th></tr></thead>
+      <thead><tr><th>File</th><th>Hypothesis / Test</th><th>Finding</th><th>Date</th></tr></thead>
       <tbody>${dataRows}</tbody>
     </table>
   </div>` : ''}
 
   ${Object.keys(byDay).length > 0 ? `
   <div class="section">
-    <div class="section-title">🗡 Journey This Week</div>
+    <div class="section-title">📅 Research Activity</div>
     <div class="timeline">${timelineHtml}</div>
   </div>` : ''}
 
@@ -327,9 +327,9 @@ export class ReportViewProvider implements vscode.WebviewViewProvider {
 </style>
 </head>
 <body>
-<p>Your charts and findings, etched into the lore scroll — ready to share with your liege.</p>
+<p>Generate a weekly research report summarising your experiments, charts, and findings.</p>
 <select id="sel"><option value="">This week</option></select>
-<button onclick="open_()">📜 Unfurl Lore Scroll</button>
+<button onclick="open_()">📊 Open Weekly Report</button>
 <script>
 const vscode = acquireVsCodeApi();
 function open_() {
