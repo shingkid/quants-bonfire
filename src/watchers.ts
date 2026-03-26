@@ -13,7 +13,7 @@ function debounce(key: string, fn: () => void, ms = 2000): void {
 export function startOutputWatcher(
   onNewOutput: (filePath: string, fileName: string) => void
 ): vscode.Disposable {
-  const config = vscode.workspace.getConfiguration('quantLogger');
+  const config = vscode.workspace.getConfiguration('quantsBonfire');
   const exts: string[] = config.get('outputExtensions') ?? ['.csv','.parquet','.png','.jpg','.jpeg','.svg','.html','.ipynb'];
   const ignorePaths: string[] = config.get('ignorePaths') ?? ['node_modules','.git','__pycache__'];
 

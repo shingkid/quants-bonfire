@@ -47,7 +47,7 @@ function isImage(name: string): boolean {
 }
 
 function isProfessionalMode(): boolean {
-  return vscode.workspace.getConfiguration('quantLogger').get('professionalMode', false);
+  return vscode.workspace.getConfiguration('quantsBonfire').get('professionalMode', false);
 }
 
 export function buildReport(weekKey?: string): string {

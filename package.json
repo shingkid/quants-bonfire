@@ -28,17 +28,17 @@
     "configuration": {
       "title": "Quant's Bonfire",
       "properties": {
-        "quantLogger.outputExtensions": {
+        "quantsBonfire.outputExtensions": {
           "type": "array",
           "default": [".csv", ".parquet", ".png", ".jpg", ".jpeg", ".svg", ".html", ".ipynb"],
           "description": "File extensions treated as experiment outputs"
         },
-        "quantLogger.ignorePaths": {
+        "quantsBonfire.ignorePaths": {
           "type": "array",
           "default": ["node_modules", ".git", "__pycache__", ".venv", "venv", ".mypy_cache"],
           "description": "Paths to ignore"
         },
-        "quantLogger.professionalMode": {
+        "quantsBonfire.professionalMode": {
           "type": "boolean",
           "default": false,
           "description": "When enabled, generated reports use plain professional language with no themed terminology. Reload the window after changing this setting."
