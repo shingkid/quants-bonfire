@@ -1,0 +1,53 @@
+{
+  "name": "quants-bonfire",
+  "displayName": "Quant's Bonfire",
+  "description": "A resting place for your experiments. Captures findings at the moment of output, suggests commit messages, and generates weekly research summaries — so you can focus on the hunt.",
+  "version": "0.1.0",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [{
+        "id": "quants-bonfire",
+        "title": "Quant's Bonfire",
+        "icon": "media/icon.svg"
+      }]
+    },
+    "views": {
+      "quants-bonfire": [
+        { "type": "webview", "id": "quant-logger.capture", "name": "Kindle the Flame" },
+        { "type": "webview", "id": "quant-logger.report",  "name": "Lore Scroll" }
+      ]
+    },
+    "commands": [
+      { "command": "quant-logger.openReport",   "title": "Unfurl the Lore Scroll",  "category": "Quant's Bonfire" },
+      { "command": "quant-logger.clearLog",     "title": "Reset to Bonfire",        "category": "Quant's Bonfire" }
+    ],
+    "configuration": {
+      "title": "Quant's Bonfire",
+      "properties": {
+        "quantLogger.outputExtensions": {
+          "type": "array",
+          "default": [".csv", ".parquet", ".png", ".jpg", ".jpeg", ".svg", ".html", ".ipynb"],
+          "description": "File extensions treated as experiment outputs"
+        },
+        "quantLogger.ignorePaths": {
+          "type": "array",
+          "default": ["node_modules", ".git", "__pycache__", ".venv", "venv", ".mypy_cache"],
+          "description": "Paths to ignore"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "package": "npx @vscode/vsce package --no-dependencies --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}
