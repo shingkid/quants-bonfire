@@ -276,7 +276,7 @@ export function buildReport(weekKey?: string): string {
 }
 
 export class ReportViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = 'quant-logger.report';
+  public static readonly viewType = 'quants-bonfire.report';
   private _view?: vscode.WebviewView;
 
   constructor(private readonly _extensionUri: vscode.Uri) {}
@@ -305,7 +305,7 @@ export class ReportViewProvider implements vscode.WebviewViewProvider {
     const wk = weekKey ?? getWeekKey();
     const html = buildReport(wk);
     const panel = vscode.window.createWebviewPanel(
-      'quant-logger-report',
+      'quants-bonfire-report',
       `Research Summary — ${weekDateRange(wk)}`,
       vscode.ViewColumn.One,
       { enableScripts: false }

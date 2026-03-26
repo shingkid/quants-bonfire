@@ -33,7 +33,12 @@ export function initStore(globalStoragePath: string): void {
   if (!fs.existsSync(globalStoragePath)) {
     fs.mkdirSync(globalStoragePath, { recursive: true });
   }
-  storePath = path.join(globalStoragePath, 'quant-logger-v2.json');
+  storePath = path.join(globalStoragePath, 'quants-bonfire-v2.json');
+  // Migrate from legacy filename if present and new file does not yet exist
+  const legacyPath = path.join(globalStoragePath, 'quant-logger-v2.json');
+  if (!fs.existsSync(storePath) && fs.existsSync(legacyPath)) {
+    try { fs.renameSync(legacyPath, storePath); } catch { /* non-fatal */ }
+  }
   if (fs.existsSync(storePath)) {
     try { data = JSON.parse(fs.readFileSync(storePath, 'utf8')); }
     catch { data = { experiments: [], pending: [] }; }

@@ -8,7 +8,7 @@ import {
 import { buildCommitMessage, runGitCommit, isGitRepo } from './git';
 
 export class CaptureViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = 'quant-logger.capture';
+  public static readonly viewType = 'quants-bonfire.capture';
   private _view?: vscode.WebviewView;
 
   constructor(private readonly _extensionUri: vscode.Uri) {}

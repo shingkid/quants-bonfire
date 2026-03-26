@@ -51,7 +51,7 @@ npm run compile
 npm run package
 ```
 
-This produces `quants-bonfire-0.1.0.vsix` in the project root. Install it as above.
+This produces `quants-bonfire-<version>.vsix` in the project root. Install it as above.
 
 ---
 
@@ -103,12 +103,14 @@ The weekly report panel.
 All data is stored locally in a JSON file — nothing leaves your machine.
 
 ```
-Windows:  %APPDATA%\Code\User\globalStorage\quants-bonfire\quant-logger-v2.json
-macOS:    ~/Library/Application Support/Code/User/globalStorage/quants-bonfire/quant-logger-v2.json
-Linux:    ~/.config/Code/User/globalStorage/quants-bonfire/quant-logger-v2.json
+Windows:  %APPDATA%\Code\User\globalStorage\quants-bonfire\quants-bonfire-v2.json
+macOS:    ~/Library/Application Support/Code/User/globalStorage/quants-bonfire/quants-bonfire-v2.json
+Linux:    ~/.config/Code/User/globalStorage/quants-bonfire/quants-bonfire-v2.json
 ```
 
-To wipe all data: `Ctrl+Shift+P` → **"Quant's Bonfire: Reset to Bonfire"**
+> **Upgrading from an earlier install?** The extension automatically migrates the legacy `quant-logger-v2.json` file to the new filename on first launch — no data loss.
+
+To wipe all data: `Ctrl+Shift+P` → **"Quant's Bonfire: Clear All Experiments"**
 
 ---
 
@@ -130,6 +132,33 @@ quants-bonfire/
 ├── .vscodeignore         # Files excluded from the packaged VSIX
 └── .gitignore
 ```
+
+---
+
+## Releases
+
+Releases are automated via GitHub Actions. The workflow is:
+
+1. **Bump the version** in `package.json` following [semver](https://semver.org/):
+   - `patch` (0.1.**x**) — bug fixes, no new behaviour
+   - `minor` (0.**x**.0) — new features, backwards compatible
+   - `major` (**x**.0.0) — breaking changes
+
+   The quickest way is `npm version patch|minor|major`, which edits `package.json`,
+   commits the change, and creates a local tag in one step.
+
+2. **Push to `main`** (with tags if you used `npm version`):
+   ```bash
+   git push --follow-tags origin main
+   ```
+
+3. **CI takes over** — `auto-tag.yml` detects the new version in `package.json` and
+   creates the `v<version>` tag if it does not already exist. The `release.yml` workflow
+   then fires on that tag, compiles TypeScript, packages the VSIX, and attaches it to a
+   new GitHub Release.
+
+Users download the `.vsix` from the [Releases](../../releases) page and install via
+**Extensions: Install from VSIX…** in VS Code.
 
 ---
 

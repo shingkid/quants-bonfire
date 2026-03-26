@@ -17,13 +17,13 @@
     },
     "views": {
       "quants-bonfire": [
-        { "type": "webview", "id": "quant-logger.capture", "name": "Kindle the Flame" },
-        { "type": "webview", "id": "quant-logger.report",  "name": "Lore Scroll" }
+        { "type": "webview", "id": "quants-bonfire.capture", "name": "Kindle the Flame" },
+        { "type": "webview", "id": "quants-bonfire.report",  "name": "Lore Scroll" }
       ]
     },
     "commands": [
-      { "command": "quant-logger.openReport",   "title": "Unfurl the Lore Scroll",  "category": "Quant's Bonfire" },
-      { "command": "quant-logger.clearLog",     "title": "Reset to Bonfire",        "category": "Quant's Bonfire" }
+      { "command": "quants-bonfire.openReport", "title": "Open Weekly Report",      "category": "Quant's Bonfire" },
+      { "command": "quants-bonfire.clearLog",  "title": "Clear All Experiments",   "category": "Quant's Bonfire" }
     ],
     "configuration": {
       "title": "Quant's Bonfire",

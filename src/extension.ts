@@ -33,18 +33,18 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Commands
   context.subscriptions.push(
-    vscode.commands.registerCommand('quant-logger.openReport', () => {
+    vscode.commands.registerCommand('quants-bonfire.openReport', () => {
       reportProvider.openFullReport();
     }),
-    vscode.commands.registerCommand('quant-logger.clearLog', async () => {
+    vscode.commands.registerCommand('quants-bonfire.clearLog', async () => {
       const confirm = await vscode.window.showWarningMessage(
-        'Clear all etched experiments? This cannot be undone.',
+        'Clear all recorded experiments? This cannot be undone.',
         'Clear', 'Cancel'
       );
       if (confirm === 'Clear') {
         const { clearAll } = require('./store');
         clearAll();
-        vscode.window.showInformationMessage("Bonfire reset. The slate is clean.");
+        vscode.window.showInformationMessage("All experiments cleared.");
       }
     })
   );
