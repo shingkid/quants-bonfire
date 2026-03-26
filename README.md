@@ -87,6 +87,7 @@ The weekly report panel.
 |---|---|---|
 | `quantLogger.outputExtensions` | `.csv .parquet .png .jpg .jpeg .svg .html .ipynb` | File types that trigger the annotation prompt |
 | `quantLogger.ignorePaths` | `node_modules .git __pycache__ .venv venv` | Paths to ignore when watching |
+| `quantLogger.professionalMode` | `false` | When `true`, generated reports use plain professional language with no themed terminology — useful when sharing with stakeholders who find the Dark Souls flavour distracting. Reload VS Code after changing. |
 
 ---
 
