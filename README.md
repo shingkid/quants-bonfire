@@ -109,8 +109,6 @@ macOS:    ~/Library/Application Support/Code/User/globalStorage/quants-bonfire/q
 Linux:    ~/.config/Code/User/globalStorage/quants-bonfire/quants-bonfire-v2.json
 ```
 
-> **Upgrading from an earlier install?** The extension automatically migrates the legacy `quant-logger-v2.json` file to the new filename on first launch — no data loss.
-
 To wipe all data: `Ctrl+Shift+P` → **"Quant's Bonfire: Clear All Experiments"**
 
 ---
