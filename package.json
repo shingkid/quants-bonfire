@@ -22,8 +22,9 @@
       ]
     },
     "commands": [
-      { "command": "quants-bonfire.openReport", "title": "Open Weekly Report",      "category": "Quant's Bonfire" },
-      { "command": "quants-bonfire.clearLog",  "title": "Clear All Experiments",   "category": "Quant's Bonfire" }
+      { "command": "quants-bonfire.openReport",           "title": "Open Weekly Report",        "category": "Quant's Bonfire" },
+      { "command": "quants-bonfire.toggleProfessionalMode", "title": "Toggle Professional Mode", "category": "Quant's Bonfire" },
+      { "command": "quants-bonfire.clearLog",              "title": "Clear All Experiments",     "category": "Quant's Bonfire" }
     ],
     "configuration": {
       "title": "Quant's Bonfire",
@@ -41,10 +42,17 @@
         "quantsBonfire.professionalMode": {
           "type": "boolean",
           "default": false,
-          "description": "When enabled, generated reports use plain professional language with no themed terminology. Reload the window after changing this setting."
+          "description": "When enabled, generated reports use plain professional language with no themed terminology. Toggle with Ctrl+Shift+Alt+P (Cmd+Shift+Alt+P on Mac) or via the Command Palette."
         }
       }
-    }
+    },
+    "keybindings": [
+      {
+        "command": "quants-bonfire.toggleProfessionalMode",
+        "key": "ctrl+shift+alt+p",
+        "mac": "cmd+shift+alt+p"
+      }
+    ]
   },
   "repository": {
     "type": "git",

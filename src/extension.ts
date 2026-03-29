@@ -36,6 +36,14 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('quants-bonfire.openReport', () => {
       reportProvider.openFullReport();
     }),
+    vscode.commands.registerCommand('quants-bonfire.toggleProfessionalMode', async () => {
+      const config = vscode.workspace.getConfiguration('quantsBonfire');
+      const current = config.get<boolean>('professionalMode', false);
+      await config.update('professionalMode', !current, vscode.ConfigurationTarget.Global);
+      vscode.window.showInformationMessage(
+        !current ? "Quant's Bonfire: professional mode on." : "Quant's Bonfire: themed mode on."
+      );
+    }),
     vscode.commands.registerCommand('quants-bonfire.clearLog', async () => {
       const confirm = await vscode.window.showWarningMessage(
         'Clear all recorded experiments? This cannot be undone.',
