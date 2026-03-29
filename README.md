@@ -43,7 +43,7 @@ No scheduled check-ins. No dashboards. No admin overhead. Just rest at the bonfi
 Requirements: [Node.js](https://nodejs.org/) 18+, [VS Code](https://code.visualstudio.com/) 1.85+
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/quants-bonfire.git
+git clone https://github.com/shingkid/quants-bonfire.git
 cd quants-bonfire
 
 # Install dependencies
