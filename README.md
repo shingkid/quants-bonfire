@@ -29,7 +29,7 @@ No scheduled check-ins. No dashboards. No admin overhead. Just rest at the bonfi
 
 ### From VSIX (easiest)
 
-1. Download the latest `.vsix` from [Releases](../../releases)
+1. Download the latest `.vsix` from [Releases](https://github.com/shingkid/quants-bonfire/releases)
 2. In VS Code: `Ctrl+Shift+P` → **"Extensions: Install from VSIX..."**
 3. Select the downloaded file and reload
 
@@ -156,7 +156,7 @@ Releases are automated via GitHub Actions. The workflow is:
    then fires on that tag, compiles TypeScript, packages the VSIX, and attaches it to a
    new GitHub Release.
 
-Users download the `.vsix` from the [Releases](../../releases) page and install via
+Users download the `.vsix` from the [Releases](https://github.com/shingkid/quants-bonfire/releases) page and install via
 **Extensions: Install from VSIX…** in VS Code.
 
 ---
