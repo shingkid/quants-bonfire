@@ -47,9 +47,18 @@ function save(): void {
 
 export function getWeekKey(ts: number = Date.now()): string {
   const d = new Date(ts);
-  const jan1 = new Date(d.getFullYear(), 0, 1);
-  const week = Math.ceil(((d.getTime() - jan1.getTime()) / 86400000 + jan1.getDay() + 1) / 7);
-  return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`;
+  // Find Thursday of this week (ISO weeks are identified by their Thursday)
+  const day = d.getDay(); // 0=Sun … 6=Sat
+  const thursday = new Date(d);
+  thursday.setDate(d.getDate() + (4 - (day === 0 ? 7 : day)));
+  const year = thursday.getFullYear();
+  // Monday of ISO week 1 = Monday of the week containing Jan 4
+  const jan4 = new Date(year, 0, 4);
+  const jan4Day = jan4.getDay();
+  const w1Monday = new Date(jan4);
+  w1Monday.setDate(jan4.getDate() - (jan4Day === 0 ? 6 : jan4Day - 1));
+  const week = Math.floor((thursday.getTime() - w1Monday.getTime()) / (7 * 86400000)) + 1;
+  return `${year}-W${String(week).padStart(2, '0')}`;
 }
 
 // ── Pending outputs (awaiting annotation) ─────────────────────────────────────

@@ -21,8 +21,12 @@ function toBase64(filePath: string): string | null {
 function weekDateRange(weekKey: string): string {
   const [yearStr, wStr] = weekKey.split('-W');
   const year = parseInt(yearStr), w = parseInt(wStr);
-  const jan1 = new Date(year, 0, 1);
-  const startOfWeek = new Date(jan1.getTime() + ((w - 1) * 7 - jan1.getDay() + 1) * 86400000);
+  // Monday of ISO week 1 = Monday of the week containing Jan 4
+  const jan4 = new Date(year, 0, 4);
+  const jan4Day = jan4.getDay();
+  const w1Monday = new Date(jan4);
+  w1Monday.setDate(jan4.getDate() - (jan4Day === 0 ? 6 : jan4Day - 1));
+  const startOfWeek = new Date(w1Monday.getTime() + (w - 1) * 7 * 86400000);
   const endOfWeek = new Date(startOfWeek.getTime() + 6 * 86400000);
   const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
   return `${fmt(startOfWeek)} – ${fmt(endOfWeek)}, ${year}`;
