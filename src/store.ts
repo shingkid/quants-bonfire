@@ -33,7 +33,7 @@ export function initStore(globalStoragePath: string): void {
   if (!fs.existsSync(globalStoragePath)) {
     fs.mkdirSync(globalStoragePath, { recursive: true });
   }
-  storePath = path.join(globalStoragePath, 'quants-bonfire-v2.json');
+  storePath = path.join(globalStoragePath, 'quants-bonfire.json');
   if (fs.existsSync(storePath)) {
     try { data = JSON.parse(fs.readFileSync(storePath, 'utf8')); }
     catch { data = { experiments: [], pending: [] }; }

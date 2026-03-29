@@ -104,9 +104,9 @@ The weekly report panel.
 All data is stored locally in a JSON file — nothing leaves your machine.
 
 ```
-Windows:  %APPDATA%\Code\User\globalStorage\quants-bonfire\quants-bonfire-v2.json
-macOS:    ~/Library/Application Support/Code/User/globalStorage/quants-bonfire/quants-bonfire-v2.json
-Linux:    ~/.config/Code/User/globalStorage/quants-bonfire/quants-bonfire-v2.json
+Windows:  %APPDATA%\Code\User\globalStorage\quants-bonfire\quants-bonfire.json
+macOS:    ~/Library/Application Support/Code/User/globalStorage/quants-bonfire/quants-bonfire.json
+Linux:    ~/.config/Code/User/globalStorage/quants-bonfire/quants-bonfire.json
 ```
 
 To wipe all data: `Ctrl+Shift+P` → **"Quant's Bonfire: Clear All Experiments"**
