@@ -19,17 +19,11 @@ function toBase64(filePath: string): string | null {
 }
 
 function weekDateRange(weekKey: string): string {
-  const [yearStr, wStr] = weekKey.split('-W');
-  const year = parseInt(yearStr), w = parseInt(wStr);
-  // Monday of ISO week 1 = Monday of the week containing Jan 4
-  const jan4 = new Date(year, 0, 4);
-  const jan4Day = jan4.getDay();
-  const w1Monday = new Date(jan4);
-  w1Monday.setDate(jan4.getDate() - (jan4Day === 0 ? 6 : jan4Day - 1));
-  const startOfWeek = new Date(w1Monday.getTime() + (w - 1) * 7 * 86400000);
-  const endOfWeek = new Date(startOfWeek.getTime() + 6 * 86400000);
-  const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-  return `${fmt(startOfWeek)} – ${fmt(endOfWeek)}, ${year}`;
+  const [y, mo, d] = weekKey.split('-').map(Number);
+  const start = new Date(y, mo - 1, d);
+  const end = new Date(start.getTime() + 6 * 86400000);
+  const fmt = (dt: Date) => dt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  return `${fmt(start)} – ${fmt(end)}, ${start.getFullYear()}`;
 }
 
 function fmtDatetime(ts: number): string {
@@ -308,7 +302,7 @@ export class ReportViewProvider implements vscode.WebviewViewProvider {
   }
 
   private _sendWeeks() {
-    const weeks = getAvailableWeeks();
+    const weeks = getAvailableWeeks().map(key => ({ key, label: weekDateRange(key) }));
     this._view?.webview.postMessage({ command: 'weeks', weeks, current: getWeekKey() });
   }
 
@@ -356,8 +350,8 @@ window.addEventListener('message', e => {
     const sel = document.getElementById('sel');
     sel.innerHTML = '<option value="">This week</option>';
     for (const w of e.data.weeks) {
-      const cur = w === e.data.current ? ' (current)' : '';
-      sel.innerHTML += '<option value="' + w + '">' + w + cur + '</option>';
+      const cur = w.key === e.data.current ? ' (current)' : '';
+      sel.innerHTML += '<option value="' + w.key + '">' + w.label + cur + '</option>';
     }
   }
 });

@@ -10,7 +10,7 @@ export interface Experiment {
   testing: string;      // "what were you testing?"
   finding: string;      // "what did you find?"
   commitHash?: string;  // filled in after commit
-  weekKey: string;      // "2026-W13"
+  weekKey: string;      // "YYYY-MM-DD" — date of the week's start day
 }
 
 export interface PendingOutput {
@@ -28,6 +28,11 @@ interface Store {
 
 let storePath = '';
 let data: Store = { experiments: [], pending: [] };
+let weekStartDay = 1; // 0=Sun … 6=Sat; 1=Monday is the default
+
+export function setWeekStartDay(day: number): void {
+  weekStartDay = day;
+}
 
 export function initStore(globalStoragePath: string): void {
   if (!fs.existsSync(globalStoragePath)) {
@@ -47,18 +52,13 @@ function save(): void {
 
 export function getWeekKey(ts: number = Date.now()): string {
   const d = new Date(ts);
-  // Find Thursday of this week (ISO weeks are identified by their Thursday)
-  const day = d.getDay(); // 0=Sun … 6=Sat
-  const thursday = new Date(d);
-  thursday.setDate(d.getDate() + (4 - (day === 0 ? 7 : day)));
-  const year = thursday.getFullYear();
-  // Monday of ISO week 1 = Monday of the week containing Jan 4
-  const jan4 = new Date(year, 0, 4);
-  const jan4Day = jan4.getDay();
-  const w1Monday = new Date(jan4);
-  w1Monday.setDate(jan4.getDate() - (jan4Day === 0 ? 6 : jan4Day - 1));
-  const week = Math.floor((thursday.getTime() - w1Monday.getTime()) / (7 * 86400000)) + 1;
-  return `${year}-W${String(week).padStart(2, '0')}`;
+  const diff = (d.getDay() - weekStartDay + 7) % 7;
+  const start = new Date(d);
+  start.setDate(d.getDate() - diff);
+  const y = start.getFullYear();
+  const m = String(start.getMonth() + 1).padStart(2, '0');
+  const day = String(start.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
 
 // ── Pending outputs (awaiting annotation) ─────────────────────────────────────

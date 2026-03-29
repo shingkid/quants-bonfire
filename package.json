@@ -39,6 +39,12 @@
           "default": ["node_modules", ".git", "__pycache__", ".venv", "venv", ".mypy_cache"],
           "description": "Paths to ignore"
         },
+        "quantsBonfire.weekStartDay": {
+          "type": "string",
+          "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "default": "Monday",
+          "description": "The day your working week starts. Experiments are grouped into weekly reports from this day. You will be prompted to set this on first launch."
+        },
         "quantsBonfire.professionalMode": {
           "type": "boolean",
           "default": false,

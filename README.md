@@ -87,6 +87,7 @@ The weekly report panel.
 |---|---|---|
 | `quantsBonfire.outputExtensions` | `.csv .parquet .png .jpg .jpeg .svg .html .ipynb` | File types that trigger the annotation prompt |
 | `quantsBonfire.ignorePaths` | `node_modules .git __pycache__ .venv venv` | Paths to ignore when watching |
+| `quantsBonfire.weekStartDay` | `Monday` | The day your working week starts. Prompted on first launch. Experiments are grouped into reports from this day through the following six days. |
 | `quantsBonfire.professionalMode` | `false` | When `true`, generated reports use plain professional language with no themed terminology — useful when sharing with stakeholders who find the Dark Souls flavour distracting. Toggle with `Ctrl+Shift+Alt+P` or via the Command Palette (`Quant's Bonfire: Toggle Professional Mode`). |
 
 ---
