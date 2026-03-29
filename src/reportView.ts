@@ -19,13 +19,11 @@ function toBase64(filePath: string): string | null {
 }
 
 function weekDateRange(weekKey: string): string {
-  const [yearStr, wStr] = weekKey.split('-W');
-  const year = parseInt(yearStr), w = parseInt(wStr);
-  const jan1 = new Date(year, 0, 1);
-  const startOfWeek = new Date(jan1.getTime() + ((w - 1) * 7 - jan1.getDay() + 1) * 86400000);
-  const endOfWeek = new Date(startOfWeek.getTime() + 6 * 86400000);
-  const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-  return `${fmt(startOfWeek)} – ${fmt(endOfWeek)}, ${year}`;
+  const [y, mo, d] = weekKey.split('-').map(Number);
+  const start = new Date(y, mo - 1, d);
+  const end = new Date(start.getTime() + 6 * 86400000);
+  const fmt = (dt: Date) => dt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  return `${fmt(start)} – ${fmt(end)}, ${start.getFullYear()}`;
 }
 
 function fmtDatetime(ts: number): string {
@@ -46,7 +44,12 @@ function isImage(name: string): boolean {
   return ['.png', '.jpg', '.jpeg', '.svg'].includes(path.extname(name).toLowerCase());
 }
 
+function isProfessionalMode(): boolean {
+  return vscode.workspace.getConfiguration('quantsBonfire').get('professionalMode', false);
+}
+
 export function buildReport(weekKey?: string): string {
+  const pro = isProfessionalMode();
   const wk = weekKey ?? getWeekKey();
   const experiments = getExperimentsForWeek(wk);
   const dateRange = weekDateRange(wk);
@@ -238,35 +241,37 @@ export function buildReport(weekKey?: string): string {
 <div class="page">
 
   <div class="report-header">
-    <div class="report-label">🔥 Quant's Bonfire — Lore Scroll</div>
+    <div class="report-label">${pro ? 'Weekly Research Report' : '🔥 Quant\'s Bonfire — Lore Scroll'}</div>
     <div class="report-title">${esc(dateRange)}</div>
-    <div class="report-sub">${experiments.length} experiment${experiments.length !== 1 ? 's' : ''} etched this week</div>
+    <div class="report-sub">${experiments.length} experiment${experiments.length !== 1 ? 's' : ''} ${pro ? 'recorded' : 'etched'} this week</div>
   </div>
 
   ${experiments.length === 0 ? `
     <div class="empty">
-      No experiments etched for this week yet.<br>
-      Rest at the bonfire after your next run — your findings will be recorded here.
+      ${pro
+        ? 'No experiments recorded for this week.<br>Annotate your next run to have it appear here.'
+        : 'No experiments etched for this week yet.<br>Rest at the bonfire after your next run — your findings will be recorded here.'
+      }
     </div>` : ''}
 
   ${imgExperiments.length > 0 ? `
   <div class="section">
-    <div class="section-title">📈 Visions &amp; Discoveries <span class="count">${imgExperiments.length}</span></div>
+    <div class="section-title">${pro ? '📈 Visual Outputs' : '📈 Visions &amp; Discoveries'} <span class="count">${imgExperiments.length}</span></div>
     <div class="cards-grid">${chartCards}</div>
   </div>` : ''}
 
   ${dataExperiments.length > 0 ? `
   <div class="section">
-    <div class="section-title">📦 Gathered Loot <span class="count">${dataExperiments.length}</span></div>
+    <div class="section-title">${pro ? '📦 Data Outputs' : '📦 Gathered Loot'} <span class="count">${dataExperiments.length}</span></div>
     <table class="data-table">
-      <thead><tr><th>File</th><th>What I tested</th><th>Finding</th><th>Date</th></tr></thead>
+      <thead><tr><th>File</th><th>${pro ? 'Hypothesis / Test' : 'What I tested'}</th><th>Finding</th><th>Date</th></tr></thead>
       <tbody>${dataRows}</tbody>
     </table>
   </div>` : ''}
 
   ${Object.keys(byDay).length > 0 ? `
   <div class="section">
-    <div class="section-title">🗡 Journey This Week</div>
+    <div class="section-title">${pro ? '📅 Research Activity' : '🗡️ Journey This Week'}</div>
     <div class="timeline">${timelineHtml}</div>
   </div>` : ''}
 
@@ -276,7 +281,7 @@ export function buildReport(weekKey?: string): string {
 }
 
 export class ReportViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = 'quant-logger.report';
+  public static readonly viewType = 'quants-bonfire.report';
   private _view?: vscode.WebviewView;
 
   constructor(private readonly _extensionUri: vscode.Uri) {}
@@ -297,7 +302,7 @@ export class ReportViewProvider implements vscode.WebviewViewProvider {
   }
 
   private _sendWeeks() {
-    const weeks = getAvailableWeeks();
+    const weeks = getAvailableWeeks().map(key => ({ key, label: weekDateRange(key) }));
     this._view?.webview.postMessage({ command: 'weeks', weeks, current: getWeekKey() });
   }
 
@@ -305,7 +310,7 @@ export class ReportViewProvider implements vscode.WebviewViewProvider {
     const wk = weekKey ?? getWeekKey();
     const html = buildReport(wk);
     const panel = vscode.window.createWebviewPanel(
-      'quant-logger-report',
+      'quants-bonfire-report',
       `Research Summary — ${weekDateRange(wk)}`,
       vscode.ViewColumn.One,
       { enableScripts: false }
@@ -314,6 +319,7 @@ export class ReportViewProvider implements vscode.WebviewViewProvider {
   }
 
   private _getShellHtml(): string {
+    const pro = isProfessionalMode();
     return `<!DOCTYPE html>
 <html><head>
 <meta charset="UTF-8">
@@ -327,9 +333,12 @@ export class ReportViewProvider implements vscode.WebviewViewProvider {
 </style>
 </head>
 <body>
-<p>Your charts and findings, etched into the lore scroll — ready to share with your liege.</p>
+<p>${pro
+      ? 'Generate a weekly research report summarising your experiments, charts, and findings.'
+      : 'Your charts and findings, etched into the lore scroll — ready to share with your liege.'
+    }</p>
 <select id="sel"><option value="">This week</option></select>
-<button onclick="open_()">📜 Unfurl Lore Scroll</button>
+<button onclick="open_()">${pro ? '📊 Open Weekly Report' : '📜 Unfurl Lore Scroll'}</button>
 <script>
 const vscode = acquireVsCodeApi();
 function open_() {
@@ -341,8 +350,8 @@ window.addEventListener('message', e => {
     const sel = document.getElementById('sel');
     sel.innerHTML = '<option value="">This week</option>';
     for (const w of e.data.weeks) {
-      const cur = w === e.data.current ? ' (current)' : '';
-      sel.innerHTML += '<option value="' + w + '">' + w + cur + '</option>';
+      const cur = w.key === e.data.current ? ' (current)' : '';
+      sel.innerHTML += '<option value="' + w.key + '">' + w.label + cur + '</option>';
     }
   }
 });

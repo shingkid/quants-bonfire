@@ -17,29 +17,52 @@
     },
     "views": {
       "quants-bonfire": [
-        { "type": "webview", "id": "quant-logger.capture", "name": "Kindle the Flame" },
-        { "type": "webview", "id": "quant-logger.report",  "name": "Lore Scroll" }
+        { "type": "webview", "id": "quants-bonfire.capture", "name": "Kindle the Flame" },
+        { "type": "webview", "id": "quants-bonfire.report",  "name": "Lore Scroll" }
       ]
     },
     "commands": [
-      { "command": "quant-logger.openReport",   "title": "Unfurl the Lore Scroll",  "category": "Quant's Bonfire" },
-      { "command": "quant-logger.clearLog",     "title": "Reset to Bonfire",        "category": "Quant's Bonfire" }
+      { "command": "quants-bonfire.openReport",           "title": "Open Weekly Report",        "category": "Quant's Bonfire" },
+      { "command": "quants-bonfire.toggleProfessionalMode", "title": "Toggle Professional Mode", "category": "Quant's Bonfire" },
+      { "command": "quants-bonfire.clearLog",              "title": "Clear All Experiments",     "category": "Quant's Bonfire" }
     ],
     "configuration": {
       "title": "Quant's Bonfire",
       "properties": {
-        "quantLogger.outputExtensions": {
+        "quantsBonfire.outputExtensions": {
           "type": "array",
           "default": [".csv", ".parquet", ".png", ".jpg", ".jpeg", ".svg", ".html", ".ipynb"],
           "description": "File extensions treated as experiment outputs"
         },
-        "quantLogger.ignorePaths": {
+        "quantsBonfire.ignorePaths": {
           "type": "array",
           "default": ["node_modules", ".git", "__pycache__", ".venv", "venv", ".mypy_cache"],
           "description": "Paths to ignore"
+        },
+        "quantsBonfire.weekStartDay": {
+          "type": "string",
+          "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "default": "Monday",
+          "description": "The day your working week starts. Experiments are grouped into weekly reports from this day. You will be prompted to set this on first launch."
+        },
+        "quantsBonfire.professionalMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "When enabled, generated reports use plain professional language with no themed terminology. Toggle with Ctrl+Shift+Alt+P (Cmd+Shift+Alt+P on Mac) or via the Command Palette."
         }
       }
-    }
+    },
+    "keybindings": [
+      {
+        "command": "quants-bonfire.toggleProfessionalMode",
+        "key": "ctrl+shift+alt+p",
+        "mac": "cmd+shift+alt+p"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shingkid/quants-bonfire"
   },
   "scripts": {
     "compile": "tsc -p ./",

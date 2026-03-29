@@ -1,5 +1,10 @@
 # 🔥 Quant's Bonfire
 
+[![Release](https://img.shields.io/github/v/release/shingkid/quants-bonfire)](https://github.com/shingkid/quants-bonfire/releases/latest)
+[![VS Code](https://img.shields.io/badge/VS%20Code-%5E1.85.0-007ACC?logo=visualstudiocode&logoColor=white)](https://code.visualstudio.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Release workflow](https://img.shields.io/github/actions/workflow/status/shingkid/quants-bonfire/release.yml?label=release)](https://github.com/shingkid/quants-bonfire/actions/workflows/release.yml)
+
 > *"Try resting at a bonfire."*
 
 A VS Code extension for quant researchers. Captures what you discovered the moment you discover it — so nothing is lost to the fog of war.
@@ -29,7 +34,7 @@ No scheduled check-ins. No dashboards. No admin overhead. Just rest at the bonfi
 
 ### From VSIX (easiest)
 
-1. Download the latest `.vsix` from [Releases](../../releases)
+1. Download the latest `.vsix` from [Releases](https://github.com/shingkid/quants-bonfire/releases)
 2. In VS Code: `Ctrl+Shift+P` → **"Extensions: Install from VSIX..."**
 3. Select the downloaded file and reload
 
@@ -51,7 +56,7 @@ npm run compile
 npm run package
 ```
 
-This produces `quants-bonfire-0.1.0.vsix` in the project root. Install it as above.
+This produces `quants-bonfire-<version>.vsix` in the project root. Install it as above.
 
 ---
 
@@ -85,8 +90,10 @@ The weekly report panel.
 
 | Setting | Default | Description |
 |---|---|---|
-| `quantLogger.outputExtensions` | `.csv .parquet .png .jpg .jpeg .svg .html .ipynb` | File types that trigger the annotation prompt |
-| `quantLogger.ignorePaths` | `node_modules .git __pycache__ .venv venv` | Paths to ignore when watching |
+| `quantsBonfire.outputExtensions` | `.csv .parquet .png .jpg .jpeg .svg .html .ipynb` | File types that trigger the annotation prompt |
+| `quantsBonfire.ignorePaths` | `node_modules .git __pycache__ .venv venv` | Paths to ignore when watching |
+| `quantsBonfire.weekStartDay` | `Monday` | The day your working week starts. Prompted on first launch. Experiments are grouped into reports from this day through the following six days. |
+| `quantsBonfire.professionalMode` | `false` | When `true`, generated reports use plain professional language with no themed terminology — useful when sharing with stakeholders who find the Dark Souls flavour distracting. Toggle with `Ctrl+Shift+Alt+P` or via the Command Palette (`Quant's Bonfire: Toggle Professional Mode`). |
 
 ---
 
@@ -103,12 +110,12 @@ The weekly report panel.
 All data is stored locally in a JSON file — nothing leaves your machine.
 
 ```
-Windows:  %APPDATA%\Code\User\globalStorage\quants-bonfire\quant-logger-v2.json
-macOS:    ~/Library/Application Support/Code/User/globalStorage/quants-bonfire/quant-logger-v2.json
-Linux:    ~/.config/Code/User/globalStorage/quants-bonfire/quant-logger-v2.json
+Windows:  %APPDATA%\Code\User\globalStorage\quants-bonfire\quants-bonfire.json
+macOS:    ~/Library/Application Support/Code/User/globalStorage/quants-bonfire/quants-bonfire.json
+Linux:    ~/.config/Code/User/globalStorage/quants-bonfire/quants-bonfire.json
 ```
 
-To wipe all data: `Ctrl+Shift+P` → **"Quant's Bonfire: Reset to Bonfire"**
+To wipe all data: `Ctrl+Shift+P` → **"Quant's Bonfire: Clear All Experiments"**
 
 ---
 
@@ -130,6 +137,33 @@ quants-bonfire/
 ├── .vscodeignore         # Files excluded from the packaged VSIX
 └── .gitignore
 ```
+
+---
+
+## Releases
+
+Releases are automated via GitHub Actions. The workflow is:
+
+1. **Bump the version** in `package.json` following [semver](https://semver.org/):
+   - `patch` (0.1.**x**) — bug fixes, no new behaviour
+   - `minor` (0.**x**.0) — new features, backwards compatible
+   - `major` (**x**.0.0) — breaking changes
+
+   The quickest way is `npm version patch|minor|major`, which edits `package.json`,
+   commits the change, and creates a local tag in one step.
+
+2. **Push to `main`** (with tags if you used `npm version`):
+   ```bash
+   git push --follow-tags origin main
+   ```
+
+3. **CI takes over** — `auto-tag.yml` detects the new version in `package.json` and
+   creates the `v<version>` tag if it does not already exist. The `release.yml` workflow
+   then fires on that tag, compiles TypeScript, packages the VSIX, and attaches it to a
+   new GitHub Release.
+
+Users download the `.vsix` from the [Releases](https://github.com/shingkid/quants-bonfire/releases) page and install via
+**Extensions: Install from VSIX…** in VS Code.
 
 ---
 
