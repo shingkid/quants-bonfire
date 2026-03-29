@@ -1,5 +1,10 @@
 # 🔥 Quant's Bonfire
 
+[![Release](https://img.shields.io/github/v/release/shingkid/quants-bonfire)](https://github.com/shingkid/quants-bonfire/releases/latest)
+[![VS Code](https://img.shields.io/badge/VS%20Code-%5E1.85.0-007ACC?logo=visualstudiocode&logoColor=white)](https://code.visualstudio.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Release workflow](https://img.shields.io/github/actions/workflow/status/shingkid/quants-bonfire/release.yml?label=release)](https://github.com/shingkid/quants-bonfire/actions/workflows/release.yml)
+
 > *"Try resting at a bonfire."*
 
 A VS Code extension for quant researchers. Captures what you discovered the moment you discover it — so nothing is lost to the fog of war.
